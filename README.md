@@ -1,2 +1,2 @@
 # SkyView
-Interactive cloud visualization software developped in python.
+Interactive visualization of cloud simulations developped in python.
