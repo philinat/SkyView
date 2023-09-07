@@ -1,4 +1,4 @@
-# SkyView Introduction
+# SkyView introduction
 SkyView is an interactive visualization of cloud simulations entirely developped in python by Nathan Philippot.
 
 # Video examples  #
