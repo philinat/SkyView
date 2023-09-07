@@ -21,3 +21,6 @@ Skyview is based on a minimalistic set of libraries, its code contains all the p
 Basic libraries | Image display and interactivity | Nvidia GPU version
 | :---: | :---: | :---:
 Numpy / Math / Matplotlib / Numba / Sparse | Pygame | Cupy
+
+# Test data #
+You can find [here](https://drive.google.com/drive/folders/1PQILyCeWVIgYhhGUAsEpvhwg1h40r3gw?usp=drive_link "google drive folder") the necessary data to try yourself the visualization of deep convection in Sahel.
