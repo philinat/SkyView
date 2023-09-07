@@ -12,6 +12,6 @@ SkyView is an interactive visualization of cloud simulations entirely developped
 # Python library dependencies #
 Skyview is based on a minimalistic set of libraries, its code contains all the physical equations and algorithms to compute the color of each pixel. The use of numba to compile parallelized functions is necessary to acheive the intensive computation of many light rays. Pygame is used to display rapidly the generated image in a window, but also for the mouse and keyboard interactions. For the Nvidia GPU version, cupy replaces numpy to define the arrays. The joined usage of numba.cuda and cupy make the entire code very easy to translate between CPU and GPU versions.
 
-Basics | Image display and interactivity | Nvidia GPU version
+Basic libraries | Image display and interactivity | Nvidia GPU version
 | :---: | :---: | :---:
 Numpy / Math / Matplotlib / Numba / Sparse | Pygame | Cupy
