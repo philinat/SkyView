@@ -1,6 +1,10 @@
 # SkyView introduction
 SkyView is an interactive visualization of cloud simulations entirely developped in python by Nathan Philippot.
 
+From a 3D cloud density field, it creates an image with realistic colors by solving the Rayleigh scattering in clear sky and the mie scattering in clouds, precipitations and aerosols. You can also visualize other 3D variables, like buoyancy or wind speed, through non-realistic color emission.
+This tool is made to be interactive, so it the computation has to be fast enough to generate at least 10 frames per seconds. In order to reach that goal many approximations were made on the light scattering in the atmosphere, and the resolution of the generated image is decreased if necessary.
+The interactivity allows you to change to move in between the clouds with mouse and keyboard controls similar to video games. This is great to visualize the complex 3D structure of clouds. And if your dataset has a good enough temporal resolution, you will be able to move in time to see the cloud dynamics.
+
 # Video examples  #
     
   [Deep convection until sunset in Amazonia](https://drive.google.com/file/d/1nJelobFSQzIRwt9R8iHG8ormK9alGMrg/view?usp=drive_link "Google drive video")
