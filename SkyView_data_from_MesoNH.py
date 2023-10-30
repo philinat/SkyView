@@ -11,7 +11,7 @@ import xarray as xr
 from numba import njit
 import sparse
 
-simu = 'LBA'
+simu = 'AMOPL'
 z_max = 16001
 orog = True
 
@@ -108,7 +108,7 @@ for it,file in enumerate(lFiles):
     new_rtracer = interp_vertical(rtracer,z,new_z)
     new_w = interp_vertical(np.array(f0.WT,dtype=dtype)[:,1:],z[1:]/2+z[:-1]/2,new_z)
     new_thva = interp_vertical( thetav,z,new_z )
-    new_thva -= np.nanmean(thetav,axis=(2,3),keepdims=True)
+    new_thva -= np.nanmean(new_thva,axis=(2,3),keepdims=True)
     
     print("Threshold",end=end)
     new_rcloud[new_rcloud < 1e-6 ] = np.nan
