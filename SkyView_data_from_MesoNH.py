@@ -10,6 +10,7 @@ import numpy as np
 import xarray as xr
 from numba import njit,prange
 import sparse
+import os
 
 simu = 'AMOPL'
 z_max = 16001
@@ -36,7 +37,8 @@ elif simu == 'AMOPL':
     lFiles = [dataPath + 'AMOPL.1.200m1.OUT.{:03d}.nc'.format(i) for i in range(1,241,1)] + [dataPath + 'AMOPL.1.200m2.OUT.{:03d}.nc'.format(i) for i in range(1,722,1)]
 
     
-savePath = '/cnrm/tropics/user/philippotn/SkyView/'
+savePath = '/cnrm/tropics/user/philippotn/SkyView/data_sparse/'
+if not os.path.exists(savePath): os.makedirs(savePath) ; print('Directory created !')
 
 f0 = xr.open_dataset(lFiles[-1])
 x = np.array(f0.ni)
@@ -125,29 +127,37 @@ for it,file in enumerate(lFiles):
     new_rtracer_sparse = sparse.COO.from_numpy(new_rtracer,idx_dtype=idx_dtype,fill_value=np.nan)
     new_w_sparse = sparse.COO.from_numpy(new_w,idx_dtype=idx_dtype,fill_value=np.nan)
     new_thva_sparse = sparse.COO.from_numpy(new_thva,idx_dtype=idx_dtype,fill_value=np.nan)
-    if it==0:
-        rcloud_sparse = new_rcloud_sparse
-        rprecip_sparse = new_rprecip_sparse
-        rtracer_sparse = new_rtracer_sparse
-        w_sparse = new_w_sparse
-        thva_sparse = new_thva_sparse
-    else:
-        rcloud_sparse = sparse.concatenate( (rcloud_sparse, new_rcloud_sparse ),axis=0)
-        rprecip_sparse = sparse.concatenate( (rprecip_sparse, new_rprecip_sparse ),axis=0)
-        rtracer_sparse = sparse.concatenate( (rtracer_sparse, new_rtracer_sparse ),axis=0)
-        w_sparse = sparse.concatenate( (w_sparse, new_w_sparse ),axis=0)
-        thva_sparse = sparse.concatenate( (thva_sparse, new_thva_sparse ),axis=0)
+    # if it==0:
+    #     rcloud_sparse = new_rcloud_sparse
+    #     rprecip_sparse = new_rprecip_sparse
+    #     rtracer_sparse = new_rtracer_sparse
+    #     w_sparse = new_w_sparse
+    #     thva_sparse = new_thva_sparse
+    # else:
+    #     rcloud_sparse = sparse.concatenate( (rcloud_sparse, new_rcloud_sparse ),axis=0)
+    #     rprecip_sparse = sparse.concatenate( (rprecip_sparse, new_rprecip_sparse ),axis=0)
+    #     rtracer_sparse = sparse.concatenate( (rtracer_sparse, new_rtracer_sparse ),axis=0)
+    #     w_sparse = sparse.concatenate( (w_sparse, new_w_sparse ),axis=0)
+    #     thva_sparse = sparse.concatenate( (thva_sparse, new_thva_sparse ),axis=0)
+    
+    sparse.save_npz(savePath+'rcloud_sparse_'+simu+'_'+str(it) ,new_rcloud_sparse)  
+    sparse.save_npz(savePath+'rprecip_sparse_'+simu+'_'+str(it) ,new_rprecip_sparse)
+    sparse.save_npz(savePath+'rtracer_sparse_'+simu+'_'+str(it) ,new_rtracer_sparse)
+    sparse.save_npz(savePath+'w_sparse_'+simu+'_'+str(it) ,new_w_sparse)
+    sparse.save_npz(savePath+'thva_sparse_'+simu+'_'+str(it) ,new_thva_sparse)
+
     print("Done",end=end)
     emptyness(new_rcloud_sparse,end=end)
     emptyness(new_rprecip_sparse,end=end)
     emptyness(new_rtracer_sparse,end=end)
+    emptyness(w_sparse,end=end)
     emptyness(new_thva_sparse)
     
-sparse.save_npz(savePath+'rcloud_sparse_'+simu ,rcloud_sparse)  
-sparse.save_npz(savePath+'rprecip_sparse_'+simu ,rprecip_sparse)
-sparse.save_npz(savePath+'rtracer_sparse_'+simu ,rtracer_sparse)
-sparse.save_npz(savePath+'w_sparse_'+simu ,w_sparse)
-sparse.save_npz(savePath+'thva_sparse_'+simu ,thva_sparse)
+# sparse.save_npz(savePath+'rcloud_sparse_'+simu ,rcloud_sparse)  
+# sparse.save_npz(savePath+'rprecip_sparse_'+simu ,rprecip_sparse)
+# sparse.save_npz(savePath+'rtracer_sparse_'+simu ,rtracer_sparse)
+# sparse.save_npz(savePath+'w_sparse_'+simu ,w_sparse)
+# sparse.save_npz(savePath+'thva_sparse_'+simu ,thva_sparse)
 
 # sparse.save_npz(savePath+'rcloud_sparse2_'+simu ,rcloud_sparse)    
 # sparse.save_npz(savePath+'rprecip_sparse2_'+simu ,rprecip_sparse)
@@ -160,11 +170,11 @@ sparse.save_npz(savePath+'thva_sparse_'+simu ,thva_sparse)
 # sparse.save_npz(savePath+'thva_sparse3_'+simu ,thva_sparse)
 #%%
 
-emptyness(rcloud_sparse)
-emptyness(rprecip_sparse)
-emptyness(rtracer_sparse)
-emptyness(w_sparse)
-emptyness(thva_sparse)
+# emptyness(rcloud_sparse)
+# emptyness(rprecip_sparse)
+# emptyness(rtracer_sparse)
+# emptyness(w_sparse)
+# emptyness(thva_sparse)
 
 #%%
 
