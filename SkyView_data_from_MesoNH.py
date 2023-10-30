@@ -150,7 +150,7 @@ for it,file in enumerate(lFiles):
     emptyness(new_rcloud_sparse,end=end)
     emptyness(new_rprecip_sparse,end=end)
     emptyness(new_rtracer_sparse,end=end)
-    emptyness(w_sparse,end=end)
+    emptyness(new_w_sparse,end=end)
     emptyness(new_thva_sparse)
     
 # sparse.save_npz(savePath+'rcloud_sparse_'+simu ,rcloud_sparse)  
