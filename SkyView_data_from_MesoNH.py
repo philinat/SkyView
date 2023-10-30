@@ -61,7 +61,6 @@ if orog:
         nt,_,nx,ny = np.shape(var)
         nz, = np.shape(Z)
         ZTOP = Zm[-1]
-        if nan
         new_var = np.zeros((nt,nz,nx,ny),dtype=var.dtype)
         for i in range(nx):
             for j in range(ny):
