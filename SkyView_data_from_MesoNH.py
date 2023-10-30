@@ -8,7 +8,7 @@ Created on Wed Sep 21 16:26:29 2022
 
 import numpy as np
 import xarray as xr
-from numba import njit
+from numba import njit,prange
 import sparse
 
 simu = 'AMOPL'
@@ -50,7 +50,7 @@ new_z = np.arange(0.,z_max,dx,dtype=dtype)
 
 if orog:
     ZS = xr.open_dataset(dataPath+simu+'_init_R'+str(round(dx))+'m_pgd.nc')['ZS'].data
-    @njit()
+    @njit(parallel=True)
     def interp_vertical(var,Zm,Z): # var has to be np.float32
         # var (3D) =  variable defined on Zm levels with Gal-Chen and Somerville terrain-following coordinates
         # Z (1D) =  altitude levels on which new_var in interpolated
@@ -60,7 +60,7 @@ if orog:
         nz, = np.shape(Z)
         ZTOP = Zm[-1]
         new_var = np.full((nt,nz,nx,ny), np.nan,dtype=var.dtype)
-        for i in range(nx):
+        for i in prange(nx):
             for j in range(ny):
                 for k in range(nz):
                     zs = ZS[i,j]
