@@ -11,7 +11,7 @@ simu = 'AMOPL'
 savePath = '/cnrm/tropics/user/philippotn/SkyView/data_sparse/'
 
 for it in range(961):
-    print(it,end=' ')
+    print(it)
     new_rcloud_sparse = sparse.load_npz(savePath+'rcloud_sparse_'+simu+'_'+str(it)+'.npz' )
     new_rprecip_sparse = sparse.load_npz(savePath+'rprecip_sparse_'+simu+'_'+str(it)+'.npz' )
     new_rtracer_sparse = sparse.load_npz(savePath+'rtracer_sparse_'+simu+'_'+str(it)+'.npz' )
