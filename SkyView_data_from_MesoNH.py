@@ -59,7 +59,7 @@ if orog:
         nt,_,nx,ny = np.shape(var)
         nz, = np.shape(Z)
         ZTOP = Zm[-1]
-        new_var = np.full((nz,nx,ny), np.nan,dtype=var.dtype)
+        new_var = np.full((nt,nz,nx,ny), np.nan,dtype=var.dtype)
         for i in range(nx):
             for j in range(ny):
                 for k in range(nz):
