@@ -7,8 +7,6 @@ Created on Wed Sep 21 16:26:29 2022
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
 import xarray as xr
 from numba import njit
 import sparse
@@ -53,7 +51,7 @@ new_z = np.arange(0.,z_max,dx,dtype=dtype)
 if orog:
     ZS = xr.open_dataset(dataPath+simu+'_init_R'+str(round(dx))+'m_pgd.nc')['ZS'].data
     @njit()
-    def interp_vertical(var,Zm,Z,nan=False): # var has to be np.float32
+    def interp_vertical(var,Zm,Z): # var has to be np.float32
         # var (3D) =  variable defined on Zm levels with Gal-Chen and Somerville terrain-following coordinates
         # Z (1D) =  altitude levels on which new_var in interpolated
         # Zm (1D) = terrain-following model levels
@@ -61,7 +59,7 @@ if orog:
         nt,_,nx,ny = np.shape(var)
         nz, = np.shape(Z)
         ZTOP = Zm[-1]
-        new_var = np.zeros((nt,nz,nx,ny),dtype=var.dtype)
+        new_var = np.full((nz,nx,ny), np.nan,dtype=var.dtype)
         for i in range(nx):
             for j in range(ny):
                 for k in range(nz):
