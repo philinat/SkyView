@@ -52,6 +52,7 @@ new_z = np.arange(0.,z_max,dx,dtype=dtype)
 
 if orog:
     ZS = xr.open_dataset(dataPath+simu+'_init_R'+str(round(dx))+'m_pgd.nc')['ZS'].data
+    np.savez_compressed(savePath+'ZS_'+simu+'_R'+str(round(dx))+'m.npz',ZS=ZS)
     @njit(parallel=True)
     def interp_vertical(var,Zm,Z): # var has to be np.float32
         # var (3D) =  variable defined on Zm levels with Gal-Chen and Somerville terrain-following coordinates
@@ -127,18 +128,6 @@ for it,file in enumerate(lFiles):
     new_rtracer_sparse = sparse.COO.from_numpy(new_rtracer,idx_dtype=idx_dtype,fill_value=np.nan)
     new_w_sparse = sparse.COO.from_numpy(new_w,idx_dtype=idx_dtype,fill_value=np.nan)
     new_thva_sparse = sparse.COO.from_numpy(new_thva,idx_dtype=idx_dtype,fill_value=np.nan)
-    # if it==0:
-    #     rcloud_sparse = new_rcloud_sparse
-    #     rprecip_sparse = new_rprecip_sparse
-    #     rtracer_sparse = new_rtracer_sparse
-    #     w_sparse = new_w_sparse
-    #     thva_sparse = new_thva_sparse
-    # else:
-    #     rcloud_sparse = sparse.concatenate( (rcloud_sparse, new_rcloud_sparse ),axis=0)
-    #     rprecip_sparse = sparse.concatenate( (rprecip_sparse, new_rprecip_sparse ),axis=0)
-    #     rtracer_sparse = sparse.concatenate( (rtracer_sparse, new_rtracer_sparse ),axis=0)
-    #     w_sparse = sparse.concatenate( (w_sparse, new_w_sparse ),axis=0)
-    #     thva_sparse = sparse.concatenate( (thva_sparse, new_thva_sparse ),axis=0)
     
     sparse.save_npz(savePath+'rcloud_sparse_'+simu+'_'+str(it) ,new_rcloud_sparse)  
     sparse.save_npz(savePath+'rprecip_sparse_'+simu+'_'+str(it) ,new_rprecip_sparse)
@@ -152,54 +141,3 @@ for it,file in enumerate(lFiles):
     emptyness(new_rtracer_sparse,end=end)
     emptyness(new_w_sparse,end=end)
     emptyness(new_thva_sparse)
-    
-# sparse.save_npz(savePath+'rcloud_sparse_'+simu ,rcloud_sparse)  
-# sparse.save_npz(savePath+'rprecip_sparse_'+simu ,rprecip_sparse)
-# sparse.save_npz(savePath+'rtracer_sparse_'+simu ,rtracer_sparse)
-# sparse.save_npz(savePath+'w_sparse_'+simu ,w_sparse)
-# sparse.save_npz(savePath+'thva_sparse_'+simu ,thva_sparse)
-
-# sparse.save_npz(savePath+'rcloud_sparse2_'+simu ,rcloud_sparse)    
-# sparse.save_npz(savePath+'rprecip_sparse2_'+simu ,rprecip_sparse)
-# # sparse.save_npz(savePath+'w_sparse2_'+simu ,w_sparse)
-# sparse.save_npz(savePath+'thva_sparse2_'+simu ,thva_sparse)
-
-# sparse.save_npz(savePath+'rcloud_sparse3_'+simu ,rcloud_sparse)    
-# sparse.save_npz(savePath+'rprecip_sparse3_'+simu ,rprecip_sparse)
-# # sparse.save_npz(savePath+'w_sparse3_'+simu ,w_sparse)
-# sparse.save_npz(savePath+'thva_sparse3_'+simu ,thva_sparse)
-#%%
-
-# emptyness(rcloud_sparse)
-# emptyness(rprecip_sparse)
-# emptyness(rtracer_sparse)
-# emptyness(w_sparse)
-# emptyness(thva_sparse)
-
-#%%
-
-# #%%
-# rcloud_sparse1 = sparse.load_npz(savePath+'rcloud_sparse2_'+simu+'.npz' )    
-# rprecip_sparse1 = sparse.load_npz(savePath+'rprecip_sparse2_'+simu+'.npz' )
-# # w_sparse1 = sparse.load_npz(savePath+'w_sparse2_'+simu+'.npz' )
-# thva_sparse1 = sparse.load_npz(savePath+'thva_sparse2_'+simu+'.npz' )
-
-# rcloud_sparse1 = sparse.load_npz(savePath+'rcloud_sparse_'+simu+'.npz' )    
-# rprecip_sparse1 = sparse.load_npz(savePath+'rprecip_sparse_'+simu+'.npz' )
-# w_sparse1 = sparse.load_npz(savePath+'w_sparse_'+simu+'.npz' )
-# thva_sparse1 = sparse.load_npz(savePath+'thva_sparse_'+simu+'.npz' )
-
-# rcloud_sparse2 = sparse.load_npz(savePath+'rcloud_sparse2_'+simu+'.npz' ) 
-# rprecip_sparse2 = sparse.load_npz(savePath+'rprecip_sparse2_'+simu+'.npz' )
-# # w_sparse2 = sparse.load_npz(savePath+'w_sparse2_'+simu+'.npz' )
-# thva_sparse2 = sparse.load_npz(savePath+'thva_sparse2_'+simu+'.npz' )
-# #%%
-# rcloud_sparse2 = sparse.load_npz(savePath+'rcloud_sparse3_'+simu+'.npz' ) 
-# rprecip_sparse2 = sparse.load_npz(savePath+'rprecip_sparse3_'+simu+'.npz' )
-# # w_sparse2 = sparse.load_npz(savePath+'w_sparse3_'+simu+'.npz' )
-# thva_sparse2 = sparse.load_npz(savePath+'thva_sparse3_'+simu+'.npz' )
-
-# rcloud_sparse = sparse.concatenate( (rcloud_sparse1, rcloud_sparse2 ),axis=0)
-# rprecip_sparse = sparse.concatenate( (rprecip_sparse1, rprecip_sparse2 ),axis=0)
-# # w_sparse = sparse.concatenate( (w_sparse1, w_sparse2 ),axis=0)
-# thva_sparse = sparse.concatenate( (thva_sparse1, thva_sparse2 ),axis=0)
